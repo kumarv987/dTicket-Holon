@@ -1,6 +1,7 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider')
 require('dotenv').config()
 
+const key = process.env.KEY
 const mnemonic = process.env.MNEMONIC
 const url = process.env.RPC_URL
 
@@ -30,10 +31,23 @@ module.exports = {
       network_id: '42',
       skipDryRun: true
     },
+    rinkeby: {
+      provider: () => {
+        return new HDWalletProvider(key, url)
+      },
+      network_id: '4',
+      skipDryRun: true
+    },
   },
   compilers: {
     solc: {
       version: '0.6.6',
     },
   },
+  api_keys: {
+    etherscan: process.env.ETHERSCAN_API_KEY
+  },
+  plugins: [
+    'truffle-plugin-verify'
+  ]
 }
